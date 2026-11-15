@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مسار | منصة التعلم الذاتي - البكالوريا</title>
+    <link rel="icon" type="image/png" href="/brand/logo-sm.png" />
+    <meta name="theme-color" content="#1b2a68" />
+    <script>
+      /* تطبيق الوضع واللون قبل الرسم لتفادي وميض الألوان */
+      (function () {
+        try {
+          var m = localStorage.getItem('masar-mode');
+          if (m !== 'light' && m !== 'dark') m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          var c = localStorage.getItem('masar-color') || 'blue';
+          document.documentElement.dataset.mode = m; document.documentElement.dataset.theme = c;
+        } catch (e) { document.documentElement.dataset.mode = 'light'; document.documentElement.dataset.theme = 'blue'; }
+      })();
+    </script>
+    <meta name="description" content="منصة تعليمية مجانية لمادة البرمجة والذكاء الاصطناعي وتكنولوجيا المعلومات لنظام البكالوريا المصرية." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

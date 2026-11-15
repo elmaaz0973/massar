@@ -1,0 +1,306 @@
+/* =====================================================================
+   نظام التصميم: وضع (فاتح/داكن) × لون رئيسي (أزرق/بنفسجي/تركواز/سماوي)
+   يُطبَّق عبر html[data-mode] و html[data-theme]
+   ===================================================================== */
+
+/* ---------- ثوابت مشتركة ---------- */
+:root {
+  --radius: 14px;
+  --danger: #d33;
+  --ok: #1a8f4a;
+  color-scheme: light;
+}
+
+/* ---------- الوضع الفاتح ---------- */
+:root, html[data-mode='light'] {
+  --text: #14204f;
+  --muted: #566089;
+  --surface: rgba(255, 255, 255, .84);
+  --surface-solid: #ffffff;
+  --border: rgba(52, 72, 160, .16);
+  --header-bg: rgba(255, 255, 255, .8);
+  --shadow: 0 10px 30px rgba(40, 60, 150, .12);
+  --text-shadow: none;
+  --btn-ink: #fff;
+  --primary-ink: #fff;
+  --danger: #c62828;
+  --ok: #17803f;
+  --wave-1: rgba(255, 255, 255, .75);
+  --wave-2: rgba(var(--acc-rgb), .30);
+  --wave-3: rgba(255, 255, 255, .55);
+  --wave-4: rgba(var(--acc-rgb), .20);
+  --circle: rgba(var(--acc-rgb), .16);
+}
+/* ---------- الوضع الداكن: هوية مستقلة ---------- */
+html[data-mode='dark'] {
+  color-scheme: dark;
+  --text: #eef2ff;
+  --muted: #aab5e0;
+  --surface: rgba(16, 24, 66, .72);
+  --surface-solid: #131b4a;
+  --border: rgba(160, 185, 255, .20);
+  --header-bg: rgba(14, 21, 58, .78);
+  --shadow: 0 14px 38px rgba(2, 6, 28, .45), inset 0 1px 0 rgba(255, 255, 255, .06);
+  --text-shadow: 0 2px 10px rgba(0, 0, 0, .35);
+  --danger: #ff7b7b;
+  --ok: #4fd88b;
+  --wave-1: rgba(var(--acc-rgb), .42);
+  --wave-2: rgba(110, 90, 235, .38);
+  --wave-3: rgba(var(--acc-rgb), .26);
+  --wave-4: rgba(110, 90, 235, .24);
+  --circle: rgba(255, 255, 255, .09);
+}
+
+/* ---------- الألوان الرئيسية: فاتح ---------- */
+html[data-theme='blue'], :root {
+  --acc-rgb: 77, 143, 232;
+  --theme-top: #f7f9ff; --b1: #cddcff; --b2: #e0d4ff; --b3: #c8eaf2;
+  --accent-text: #2447c7; --btn-a: #2f6bf0; --btn-b: #5b4be8;
+}
+html[data-theme='purple'] {
+  --acc-rgb: 155, 117, 232;
+  --theme-top: #faf7ff; --b1: #dccdff; --b2: #cddcff; --b3: #c8eaf2;
+  --accent-text: #6a38c9; --btn-a: #8a55e6; --btn-b: #5d3bd0;
+}
+html[data-theme='teal'] {
+  --acc-rgb: 57, 174, 181;
+  --theme-top: #f4fbfb; --b1: #bfe7e8; --b2: #cddcff; --b3: #e0d4ff;
+  --accent-text: #0b7581; --btn-a: #139aa2; --btn-b: #0d7287;
+}
+html[data-theme='cyan'] {
+  --acc-rgb: 67, 185, 208;
+  --theme-top: #f3fafd; --b1: #bfe6f3; --b2: #cddcff; --b3: #e0d4ff;
+  --accent-text: #0b6f96; --btn-a: #1597bd; --btn-b: #0d70a8;
+}
+/* ---------- الألوان الرئيسية: داكن (القيم الأصلية من كود الخلفية) ---------- */
+html[data-mode='dark'][data-theme='blue'] {
+  --theme-top: #2d324d; --b1: #1b2a68; --b2: #4e2371; --b3: #1b5a68;
+  --accent-text: #8fc0ff; --btn-a: #2f72ea; --btn-b: #5a50e6;
+}
+html[data-mode='dark'][data-theme='purple'] {
+  --theme-top: #34264f; --b1: #4e2371; --b2: #1b2a68; --b3: #1b5a68;
+  --accent-text: #c9aeff; --btn-a: #8d5cf0; --btn-b: #5f3fd8;
+}
+html[data-mode='dark'][data-theme='teal'] {
+  --theme-top: #203d49; --b1: #1b5a68; --b2: #1b2a68; --b3: #4e2371;
+  --accent-text: #72e2e6; --btn-a: #13979f; --btn-b: #0f7a93;
+}
+html[data-mode='dark'][data-theme='cyan'] {
+  --theme-top: #24475f; --b1: #247f91; --b2: #1b2a68; --b3: #4e2371;
+  --accent-text: #86ddf5; --btn-a: #1594ba; --btn-b: #1177b0;
+}
+
+/* مشتقات (تعتمد على القيم أعلاه) */
+:root, html[data-mode], html[data-theme] {
+  --primary: var(--btn-a);
+  --soft: rgba(var(--acc-rgb), .12);
+  --btn-grad: linear-gradient(135deg, var(--btn-a), var(--btn-b));
+  --btn-shadow: rgba(var(--acc-rgb), .35);
+}
+html[data-mode='dark'] { --soft: rgba(var(--acc-rgb), .14); }
+
+/* =====================================================================
+   الخلفية المتحركة – منقولة من masar1.html (نفس الحركة والبنية)
+   ===================================================================== */
+.masar-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  background: linear-gradient(var(--theme-top), var(--b1)); }
+.masar-bg .bg { display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; opacity: 0; transition: opacity 1s ease-in-out; pointer-events: none; }
+.masar-bg .bg-1 { background: linear-gradient(var(--theme-top), var(--b1)); }
+.masar-bg .bg-2 { background: linear-gradient(var(--theme-top), var(--b2)); }
+.masar-bg .bg-3 { background: linear-gradient(var(--theme-top), var(--b3)); }
+.masar-bg .bg.show { opacity: 1; }
+
+.masar-bg .waves { position: absolute; bottom: 0; margin-bottom: -1px; width: 100%; height: 15vh; min-height: 100px; max-height: 150px; pointer-events: none; }
+.masar-bg .parallax > use { animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite; }
+.masar-bg .parallax > use:nth-child(1) { animation-delay: -2s; animation-duration: 7s;  fill: var(--wave-1); }
+.masar-bg .parallax > use:nth-child(2) { animation-delay: -3s; animation-duration: 10s; fill: var(--wave-2); }
+.masar-bg .parallax > use:nth-child(3) { animation-delay: -4s; animation-duration: 13s; fill: var(--wave-3); }
+.masar-bg .parallax > use:nth-child(4) { animation-delay: -5s; animation-duration: 20s; fill: var(--wave-4); }
+@keyframes move-forever { 0% { transform: translateX(-90px); } 100% { transform: translateX(85px); } }
+@media (max-width: 768px) { .masar-bg .waves { height: 55px; min-height: 55px; } }
+
+.masar-bg .circles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; margin: 0; padding: 0; pointer-events: none; }
+.masar-bg .circles li { position: absolute; display: block; list-style: none; width: 20px; height: 20px; background: var(--circle); animation: animate 25s linear infinite; border-radius: 50%; bottom: -150px; }
+.masar-bg .circles li:nth-child(1)  { left: 25%; width: 28px; height: 28px; animation-delay: 0s; }
+.masar-bg .circles li:nth-child(2)  { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+.masar-bg .circles li:nth-child(3)  { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+.masar-bg .circles li:nth-child(4)  { left: 40%; width: 34px; height: 34px; animation-delay: 0s; animation-duration: 18s; }
+.masar-bg .circles li:nth-child(5)  { left: 65%; width: 24px; height: 24px; animation-delay: 0s; }
+.masar-bg .circles li:nth-child(6)  { left: 75%; width: 35px; height: 35px; animation-delay: 3s; }
+.masar-bg .circles li:nth-child(7)  { left: 35%; width: 38px; height: 38px; animation-delay: 7s; }
+.masar-bg .circles li:nth-child(8)  { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+.masar-bg .circles li:nth-child(9)  { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+.masar-bg .circles li:nth-child(10) { left: 85%; width: 30px; height: 30px; animation-delay: 0s; animation-duration: 11s; }
+@keyframes animate { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-1000px); opacity: 0; } }
+@media (max-width: 768px) { .masar-bg .circles li:nth-child(n+7) { display: none; } }
+
+/* الروبوت: في الصفحة الرئيسية داخل الهيرو (ظاهر على كل الأجهزة)، وفي باقي الصفحات في الهامش الأيسر للشاشات العريضة فقط */
+.robot { display: block; pointer-events: none; }
+.masar-bg .bg-robot { position: absolute; display: none; width: 150px; height: 150px; top: 84px; left: max(8px, calc((100vw - 1100px) / 2 - 175px)); z-index: 2; }
+@media (min-width: 1500px) { .masar-bg .bg-robot { display: block; } }
+.hero-robot { position: absolute; width: 150px; height: 150px; top: 14px; inset-inline-end: auto; left: 22px; z-index: 2; filter: drop-shadow(0 8px 14px rgba(10, 20, 80, .3)); }
+@media (max-width: 900px) { .hero-robot { width: 108px; height: 108px; left: 12px; top: 10px; } }
+@media (max-width: 560px) { .hero-robot { width: 74px; height: 74px; left: 6px; top: 6px; } }
+.robot svg { display: block; width: 100%; height: 100%; animation: robot-idle 2s ease-in-out infinite alternate; transform: translateZ(0); }
+.robot .s0 { fill: #182a53; } .robot .s1 { fill: #e3eede; } .robot .s2 { fill: #bac0cd; }
+.robot .s3 { fill: #95a0bb; } .robot .s4 { fill: #1a417a; } .robot .s5 { fill: #0dc3f2; }
+.robot #eye-left, .robot #eye-right { animation: blink-eye 3s infinite; }
+@keyframes robot-idle { from { transform: translateY(0); } to { transform: translateY(25px); } }
+@keyframes blink-eye { 0% { transform: translateY(0) scaleY(1); } 10% { transform: translateY(32px) scaleY(.5); } 20% { transform: translateY(0) scaleY(1); } 30% { transform: translateY(32px) scaleY(.5); } 40% { transform: translateY(0) scaleY(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .masar-bg .parallax > use, .masar-bg .circles li, .robot svg, .robot #eye-left, .robot #eye-right { animation: none !important; }
+  .masar-bg .bg { transition: none; }
+}
+
+/* =====================================================================
+   الصفحات والكروت
+   ===================================================================== */
+.page-title { color: var(--text); text-shadow: var(--text-shadow); margin: 8px 0 4px; }
+.lead { color: var(--muted); font-size: 1rem; margin-bottom: 20px; }
+html[data-mode='dark'] main.bare .lead, html[data-mode='dark'] main.bare .page-title { color: #fff; }
+html[data-mode='dark'] main.bare .lead { color: #d3dbff; }
+.btn-arrow { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #fff; color: var(--btn-b); font-size: 14px; font-weight: 900; line-height: 1; }
+
+.tools-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.tool-card { align-items: center; text-align: center; gap: 6px; padding: 18px 20px 22px; }
+.tool-card:hover { transform: translateY(-4px); border-color: rgba(var(--acc-rgb), .6); }
+.tool-card .badge { align-self: center; }
+.tool-card h3 { font-size: 1.15rem; margin-top: 4px; }
+.tool-card .muted { flex: 1; min-height: 4.2em; }
+.tool-card .btn { align-self: center; margin-top: 12px; padding: 9px 22px; border-radius: 999px; }
+.tool-icon { width: auto; height: 130px; max-width: 70%; object-fit: contain; margin: 2px auto 8px; filter: drop-shadow(0 10px 14px rgba(20, 30, 100, .22)); }
+.tool-head { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.tool-head img { width: 72px; height: auto; object-fit: contain; }
+.tool-head h1 { margin: 0; }
+
+.footer-logo { height: 56px; width: auto; margin-bottom: 4px; }
+
+/* ---------- خريطة المنهج ---------- */
+.cmap { margin: 20px 0 8px; }
+.cmap-head h2 { margin: 0 0 2px; }
+.cmap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 14px; }
+.cmap-card { background: var(--surface-solid); border: 1px solid var(--border); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.cmap-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--btn-grad); }
+.cmap-card header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.cmap-card h3 { margin: 0; font-size: 1.25rem; }
+.cmap-card header .muted { font-size: .82rem; line-height: 1.6; margin-top: 2px; }
+.cmap-count { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 78px; height: 78px; border-radius: 18px; background: var(--btn-grad); color: #fff; box-shadow: 0 8px 18px var(--btn-shadow); line-height: 1; }
+.cmap-count strong { font-size: 2rem; font-weight: 800; }
+.cmap-count span { font-size: .8rem; font-weight: 700; margin-top: 4px; }
+.cmap-card ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cmap-card li a { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; color: var(--text); font-weight: 600; background: var(--soft); transition: transform .15s, background .15s; }
+.cmap-card li a:hover { text-decoration: none; transform: translateX(-3px); background: rgba(var(--acc-rgb), .24); }
+.cmap-card li .num { flex: 0 0 auto; min-width: 2.1em; background: var(--btn-grad); color: #fff; font-weight: 800; padding: 1px 4px; }
+
+/* ---------- تفاصيل صغيرة للوضع الداكن ---------- */
+html[data-mode='dark'] .prose pre, html[data-mode='dark'] .code-area { background: #0a1033; border: 1px solid var(--border); }
+html[data-mode='dark'] .opt.right { background: rgba(79, 216, 139, .14); border-color: var(--ok); }
+html[data-mode='dark'] .opt.wrong { background: rgba(255, 123, 123, .14); border-color: var(--danger); }
+.opt.right { border-color: var(--ok); } .opt.wrong { border-color: var(--danger); }
+.feedback.ok, .state.ok, .done { color: var(--ok); } .feedback.bad { color: var(--danger); }
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); opacity: .8; }
+
+@media (max-width: 720px) {
+  .navbar-inner { gap: 8px; }
+  .brand span { display: none; }
+  .navbar nav a { padding: 5px 9px; font-size: .92rem; }
+  .theme-switchers { gap: 7px; }
+  .hero { padding: 20px 14px 28px; }
+  main.container.panel { border-radius: 16px; margin-top: 14px; }
+  .cmap-card header { align-items: flex-start; }
+}
+
+@media (max-width: 720px) { .navbar { position: static; } }
+
+/* =====================================================================
+   صفحة الدرس: فهرس جانبي + محتوى + عمود إعلان
+   (في RTL أول عمود يظهر يميناً: الفهرس، ثم المحتوى، ثم الإعلان يساراً)
+   ===================================================================== */
+main.container.wide { max-width: 1400px; }
+.lesson-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr) 160px; gap: 28px; align-items: start; }
+.lesson-main { min-width: 0; }
+.lesson-ad { position: sticky; top: 86px; align-self: start; }
+.lesson-main > .crumbs:first-of-type { margin-top: 18px; }
+
+/* الإعلانات */
+.ad-slot { display: grid; place-items: center; border-radius: 14px; background: var(--soft); border: 1px dashed var(--border); color: var(--muted); font-size: .85rem; letter-spacing: .02em; }
+.ad-top { min-height: 100px; margin-bottom: 8px; }
+.ad-inline { min-height: 100px; margin: 24px 0; }
+.ad-side { min-height: min(600px, calc(100vh - 120px)); }
+
+/* الفهرس الجانبي */
+.lesson-toc { position: sticky; top: 86px; align-self: start; max-height: calc(100vh - 106px); display: flex; flex-direction: column; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.toc-toggle { display: none; }
+.toc-body { display: flex; flex-direction: column; min-height: 0; }
+.toc-head { padding: 16px 16px 10px; border-bottom: 1px solid var(--border); }
+.toc-head h2 { margin: 0 0 10px; font-size: 1.1rem; line-height: 1.5; }
+.toc-head .bar { margin: 0; }
+.toc-count { margin: 6px 0 0; font-size: .85rem; }
+.toc-mode { display: flex; gap: 4px; margin-top: 10px; background: var(--soft); border-radius: 999px; padding: 3px; }
+.toc-mode button { flex: 1; border: 0; background: transparent; color: var(--muted); font: inherit; font-size: .85rem; font-weight: 700; padding: 5px 8px; border-radius: 999px; cursor: pointer; }
+.toc-mode button.on { background: var(--btn-grad); color: #fff; }
+.toc-scroll { overflow-y: auto; padding: 8px 10px 14px; overscroll-behavior: contain; position: relative; }
+.toc-list { list-style: none; margin: 0; padding: 0; }
+.toc-item { position: relative; display: flex; align-items: flex-start; gap: 10px; padding: 3px 0; }
+.toc-item::after { content: ''; position: absolute; inset-inline-start: 17px; top: 32px; bottom: -4px; width: 2px; background: var(--border); }
+.toc-item:last-child::after { display: none; }
+.toc-item.done::after { background: var(--accent-text); opacity: .45; }
+.toc-dot { flex: 0 0 auto; width: 24px; height: 24px; margin: 7px 4px 0; border-radius: 50%; border: 2px solid var(--border); background: var(--surface-solid); display: grid; place-items: center; color: #fff; z-index: 1; }
+.toc-item.done .toc-dot { background: var(--btn-grad); border-color: transparent; box-shadow: 0 2px 8px var(--btn-shadow); }
+.toc-item a { flex: 1; min-width: 0; display: block; padding: 8px 10px; border-radius: 10px; color: var(--text); font-weight: 600; font-size: .93rem; line-height: 1.55; }
+.toc-item a:hover { text-decoration: none; background: var(--soft); }
+.toc-item.active a { background: rgba(var(--acc-rgb), .24); color: var(--text); }
+.toc-item.active .toc-dot { border-color: var(--accent-text); }
+.toc-item.draft a { opacity: .6; }
+.toc-item a small { display: block; font-weight: 500; color: var(--muted); font-size: .76rem; }
+.toc-num { display: inline-block; min-width: 2.2em; font-weight: 800; color: var(--accent-text); font-size: .82rem; }
+.toc-unit { border-bottom: 1px solid var(--border); padding: 4px 0; }
+.toc-unit > summary { cursor: pointer; font-weight: 800; padding: 8px 4px; font-size: .92rem; }
+
+/* «في هذا الدرس» */
+.outline ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.outline a { display: block; padding: 5px 10px; border-radius: 8px; color: var(--text); border-inline-start: 3px solid transparent; }
+.outline a:hover { text-decoration: none; background: var(--soft); }
+.outline a.on { background: var(--soft); border-inline-start-color: var(--accent-text); color: var(--accent-text); font-weight: 700; }
+.prose h2, .prose h3 { scroll-margin-top: 90px; }
+
+/* ---------- تكيّف مع كل الأجهزة ---------- */
+html { -webkit-text-size-adjust: 100%; }
+img, svg, video, canvas { max-width: 100%; }
+.prose, .prose p, .prose li, .prose td, .prose th, h1, h2, h3 { overflow-wrap: anywhere; }
+.table-wrap, .prose pre { max-width: 100%; }
+.prose img { height: auto; }
+input, select, textarea { max-width: 100%; }
+.container { padding-inline: clamp(12px, 3vw, 24px); }
+
+/* لابتوب/تابلت أفقي: نخفي عمود الإعلان الجانبي */
+@media (max-width: 1180px) {
+  .lesson-layout { grid-template-columns: 280px minmax(0, 1fr); }
+  .lesson-ad { display: none; }
+}
+/* تابلت عمودي وموبايل: الفهرس يصبح زرّاً يفتح قائمة فوق المحتوى */
+@media (max-width: 900px) {
+  .lesson-layout { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .lesson-toc { position: static; max-height: none; border-radius: 14px; }
+  .toc-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; background: transparent; border: 0; color: var(--text); font: inherit; font-weight: 800; padding: 13px 16px; cursor: pointer; min-height: 48px; }
+  .toc-toggle-info { color: var(--accent-text); font-size: .9rem; }
+  .toc-body { display: none; border-top: 1px solid var(--border); }
+  .lesson-toc.open .toc-body { display: flex; }
+  .toc-scroll { max-height: 55vh; }
+  .ad-top { min-height: 70px; }
+  .lesson-main > .crumbs:first-of-type { margin-top: 10px; }
+}
+@media (max-width: 720px) {
+  main.container.panel { padding: 18px 14px 28px; }
+  h1 { font-size: 1.5rem; line-height: 1.45; }
+  .pager { flex-direction: column; gap: 10px; }
+  .pager a { display: block; padding: 10px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--soft); }
+  .btn, button { min-height: 44px; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .cmap-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) {
+  .navbar nav a { padding: 5px 7px; font-size: .86rem; }
+  .theme-switchers { gap: 5px; }
+  .theme-icon, .theme-btn { width: 26px; height: 26px; flex-basis: 26px; }
+}
