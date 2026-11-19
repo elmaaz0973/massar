@@ -186,3 +186,30 @@ button.btn:disabled { opacity: .5; cursor: not-allowed; }
 @media (max-width: 800px) { .editor-split { grid-template-columns: 1fr; } .attempts { columns: 1; } }
 
 .source-note { color: var(--muted); font-size: .9rem; font-weight: 600; }
+/* ---------- الهيدر على الموبايل: سطرين ---------- */
+@media (max-width: 800px) {
+  .navbar-inner {
+    flex-wrap: wrap;            /* سطرين: قوائم فوق، ثيم+حساب تحت */
+    min-height: auto;           /* إلغاء الارتفاع الأدنى 68px */
+    padding-top: 4px;
+    padding-bottom: 4px;
+    gap: 4px 10px;
+  }
+  .brand { order: 1; }
+  .brand img { height: 26px; }
+  .brand span { display: none; }   /* إخفاء نص "منصة التعلم الذاتي" */
+  /* السطر الأول: الشعار + القوائم */
+  .navbar-inner > nav:not(.account) {
+    order: 2;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    overflow-x: auto;           /* لو القوائم زادت تتمرر أفقيًا */
+    scrollbar-width: none;
+  }
+  .navbar-inner > nav:not(.account)::-webkit-scrollbar { display: none; }
+  .navbar nav a { padding: 4px 8px; font-size: .85rem; white-space: nowrap; }
+  /* السطر الثاني: الثيم على اليمين، الحساب على الشمال */
+  .theme-switchers { order: 3; gap: 5px; }
+  .theme-icon, .theme-btn { width: 20px; height: 20px; flex: 0 0 20px; }
+  .navbar-inner nav.account { order: 4; margin-inline-start: auto; gap: 10px; }
+}
