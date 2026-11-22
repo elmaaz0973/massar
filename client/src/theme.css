@@ -304,3 +304,39 @@ input, select, textarea { max-width: 100%; }
   .theme-switchers { gap: 5px; }
   .theme-icon, .theme-btn { width: 26px; height: 26px; flex-basis: 26px; }
 }
+/* هيدر الموبايل المضغوط: صفّان بدل أربعة */
+.theme-colors { display: flex; align-items: center; gap: 9px; }
+.palette-toggle { display: none; }
+
+@media (max-width: 720px) {
+  .navbar .navbar-inner { min-height: 0; padding-top: 6px; padding-bottom: 6px; gap: 4px 8px; }
+  .navbar .brand img { height: 34px; }
+  /* دي كانت سبب تكبير الهيدر: min-height:44px على كل الأزرار */
+  .navbar button, .navbar .btn { min-height: 0; }
+  .navbar .btn.small { padding: 5px 12px; font-size: .88rem; }
+
+  /* ترتيب الصف الأول: اللوجو ← الثيم ← الحساب */
+  .navbar .navbar-inner > .brand { order: 1; margin-inline-end: auto; }
+  .navbar .navbar-inner > .theme-switchers { order: 2; position: relative; gap: 8px; }
+  .navbar .navbar-inner > nav.account { order: 3; gap: 8px; }
+  .navbar .navbar-inner > nav.account a { font-size: .88rem; }
+
+  /* الصف التاني: روابط التنقل في سطر واحد بتمرير أفقي */
+  .navbar .navbar-inner > nav:not(.account) {
+    order: 4; flex: 0 0 100%; flex-wrap: nowrap; gap: 2px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    border-top: 1px solid var(--border); padding-top: 4px;
+  }
+  .navbar .navbar-inner > nav:not(.account)::-webkit-scrollbar { display: none; }
+  .navbar nav a { white-space: nowrap; flex: 0 0 auto; }
+  .navbar .navbar-inner > nav:not(.account) a { padding: 6px 11px; font-size: .9rem; }
+
+  /* زر الألوان + القائمة المنسدلة */
+  .palette-toggle { display: grid; }
+  .theme-colors { display: none; }
+  .theme-colors.open {
+    display: flex; position: absolute; top: calc(100% + 10px); inset-inline-end: 0; z-index: 30;
+    padding: 10px 12px; gap: 10px; border-radius: 14px;
+    background: var(--surface-solid); border: 1px solid var(--border); box-shadow: var(--shadow);
+  }
+}
