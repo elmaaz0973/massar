@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext.jsx';
 import { COLORS, useTheme } from '../theme.jsx';
@@ -6,7 +7,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { mode, color, setColor, toggleMode } = useTheme();
-
+  const [paletteOpen, setPaletteOpen] = useState(false);
   return (
     <header className="navbar">
       <div className="container navbar-inner">
@@ -20,14 +21,28 @@ export default function Navbar() {
           <NavLink to="/stages/grade-2">الصف الثاني</NavLink>
           <NavLink to="/tools">الأدوات</NavLink>
         </nav>
-        <div className="theme-switchers" role="group" aria-label="إعدادات المظهر">
-          <button type="button" className="theme-icon" onClick={toggleMode} aria-label={mode === 'dark' ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'} title={mode === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'}>
-            {mode === 'dark' ? '☀' : '☾'}
-          </button>
-          {COLORS.map((c) => (
-            <button key={c.id} type="button" className={`theme-btn ${c.id}${color === c.id ? ' active' : ''}`} onClick={() => setColor(c.id)} aria-label={c.label} aria-pressed={color === c.id} title={c.label} />
-          ))}
-        </div>
+       <div className="theme-switchers" role="group" aria-label="إعدادات المظهر">
+  <button type="button" className="theme-icon" onClick={toggleMode}
+    aria-label={mode === 'dark' ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
+    title={mode === 'dark' ? 'الوضع الفاتح' : 'الوضع الداكن'}>
+    {mode === 'dark' ? '☀' : '☾'}
+  </button>
+
+  {/* جديد: زر الألوان (بيظهر على الموبايل بس) */}
+  <button type="button" className="theme-icon palette-toggle"
+    onClick={() => setPaletteOpen((o) => !o)}
+    aria-label="اختيار لون المنصة" aria-expanded={paletteOpen} title="لون المنصة">🎨</button>
+
+  {/* جديد: نقط الألوان اتلفّت في div */}
+  <div className={`theme-colors${paletteOpen ? ' open' : ''}`}>
+    {COLORS.map((c) => (
+      <button key={c.id} type="button"
+        className={`theme-btn ${c.id}${color === c.id ? ' active' : ''}`}
+        onClick={() => { setColor(c.id); setPaletteOpen(false); }}
+        aria-label={c.label} aria-pressed={color === c.id} title={c.label} />
+    ))}
+  </div>
+</div>
         <nav className="account">
           {user ? (
             <>
