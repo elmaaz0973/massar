@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Background from './components/Background.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
@@ -40,6 +41,7 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
+      <Analytics />
     </>
   );
 }
