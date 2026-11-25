@@ -11,6 +11,9 @@ import Auth from './pages/Auth.jsx';
 import Me from './pages/Me.jsx';
 import Tools from './pages/Tools.jsx';
 import Tool from './pages/Tool.jsx';
+const Bank = lazy(() => import('./pages/Bank.jsx'));
+const BankUnit = lazy(() => import('./pages/BankUnit.jsx'));
+const AdminPayments = lazy(() => import('./pages/admin/AdminPayments.jsx'));
 const AdminHome = lazy(() => import('./pages/admin/AdminHome.jsx'));
 const AdminEditor = lazy(() => import('./pages/admin/AdminEditor.jsx'));
 
@@ -33,7 +36,10 @@ export default function App() {
           <Route path="/me" element={<Me />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/:toolSlug" element={<Tool />} />
+          <Route path="/bank" element={<Bank />} />
+          <Route path="/bank/unit/:n" element={<BankUnit />} />
           <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin/payments" element={<AdminPayments />} />
           <Route path="/admin/lessons/:id" element={<AdminEditor />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

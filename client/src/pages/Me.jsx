@@ -3,11 +3,13 @@ import { api } from '../api.js';
 import { useAuth } from '../AuthContext.jsx';
 import { useFetch } from '../useFetch.js';
 import { Loading, ErrorBox } from '../components/State.jsx';
+import { rankOf } from '../data/bankMessages.js';
+import '../bank.css';
 
 export default function Me() {
   const { user, loading: authLoading } = useAuth();
   const { data, loading, error } = useFetch(
-    () => (user ? Promise.all([api.stages(), api.progress()]) : Promise.resolve(null)),
+    () => (user ? Promise.all([api.stages(), api.progress(), api.bank().catch(() => null)]) : Promise.resolve(null)),
     [user?.id]
   );
 
@@ -15,8 +17,11 @@ export default function Me() {
   if (!user) return <Navigate to="/login" state={{ from: '/me' }} replace />;
   if (loading) return <Loading />;
   if (error) return <ErrorBox message={error} />;
+  if (!data) return <Loading />;   // لحظة وصول المستخدم بعد التحميل الأول: لا بيانات بعد
 
-  const [stages, progress] = data;
+  const [stages, progress, bank] = data;
+  const rank = rankOf(bank?.me?.xp);
+  const attempted = (bank?.units || []).filter((u) => bank.me?.best?.[u.number]);
   const active = stages.filter((s) => !s.comingSoon);
 
   return (
@@ -38,6 +43,32 @@ export default function Me() {
           );
         })}
       </div>
+
+      {bank?.me && (
+        <>
+          <h2>بنك الأسئلة</h2>
+          <div className="bk-me">
+            <span className="bk-rank-e" aria-hidden="true">{rank.e}</span>
+            <strong>{rank.title}</strong>
+            <span className="bk-streak">🔥 {bank.me.streakDays}<small>{bank.me.streakDays === 1 ? 'يوم متواصل' : 'أيام متواصلة'}</small></span>
+            <div className="bk-prog">
+              <div className="bk-xp"><span style={{ width: `${rank.progress}%` }} /></div>
+              <small>{bank.me.xp} نقطة{rank.next ? ` · فاضل ${rank.toNext} ونبقى ${rank.next.title} ${rank.next.e}` : ''}</small>
+            </div>
+          </div>
+          {attempted.length > 0 && (
+            <div className="bk-mini" style={{ marginTop: 12 }}>
+              {attempted.map((u) => (
+                <Link key={u.number} to={`/bank/unit/${u.number}`}>
+                  <span>الوحدة {u.number}: {u.title}</span>
+                  <span className={`badge ${bank.me.best[u.number].percent >= 60 ? '' : 'soft'}`}>{bank.me.best[u.number].percent}%{bank.me.best[u.number].partial ? ' (جزء)' : ''}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+          <p style={{ marginTop: 12 }}><Link className="btn" to="/bank">افتح بنك الأسئلة</Link></p>
+        </>
+      )}
 
       <h2>نتائج الكويزات</h2>
       {progress.quizBest.length === 0 ? (

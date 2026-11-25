@@ -10,6 +10,7 @@ import Quiz from '../components/Quiz.jsx';
 import AdSlot from '../components/AdSlot.jsx';
 import LessonSidebar from '../components/LessonSidebar.jsx';
 import { toolsForLesson } from '../tools/registry.js';
+import '../bank.css';
 
 export default function Lesson() {
   const { stageSlug, lessonSlug } = useParams();
@@ -106,6 +107,14 @@ export default function Lesson() {
         <AdSlot position="inline" />
 
         {hasQuiz && <Quiz lessonId={lesson._id} onPassed={() => setDone(lesson._id, true)} />}
+
+        {published && stage.slug === 'grade-1' && unit.number >= 1 && unit.number <= 7 && (
+          <aside className="bk-lesson-link">
+            <span className="bk-le" aria-hidden="true">🎯</span>
+            <div><strong>تدرّب أكتر على هذا الدرس</strong><span className="sub">أسئلة بنمط الامتحان مع شرح فوري ورسائل تشجيع</span></div>
+            <Link className="btn" to={`/bank/unit/${unit.number}?lesson=${lesson.slug}`}>افتح بنك الأسئلة</Link>
+          </aside>
+        )}
 
         {published && (
           <div className="complete">

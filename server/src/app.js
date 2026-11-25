@@ -7,6 +7,7 @@ import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
 import progressRoutes from './routes/progress.js';
 import quizRoutes from './routes/quiz.js';
+import bankRoutes from './routes/bank.js';
 
 const app = express();
 app.set('trust proxy', 1); // خلف Vercel/بروكسي: لازم لـ express-rate-limit ولقراءة IP الحقيقي
@@ -30,6 +31,7 @@ app.use('/api', async (_req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/lessons/:lessonId/quiz', quizRoutes);
+app.use('/api/bank', bankRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api', contentRoutes);
 

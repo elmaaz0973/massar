@@ -9,10 +9,13 @@
     "import-content": "node seed/import-content.js",
     "create-admin": "node seed/create-admin.js",
     "check-content": "node seed/check-content.js",
-    "coverage": "node seed/coverage.js"
+    "coverage": "node seed/coverage.js",
+    "check:bank": "node seed/check-bank.js",
+    "import:bank": "node seed/import-bank.js",
+    "test:bank": "node test/bank-access.mjs",
+    "test:bank-full": "node test/bank-full.mjs"
   },
   "dependencies": {
-    "bac-ict-platform": "file:..",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

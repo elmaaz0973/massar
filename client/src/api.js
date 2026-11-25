@@ -32,5 +32,14 @@ export const api = {
   uncomplete: (lessonId) => request('DELETE', `/progress/lessons/${lessonId}`),
 
   quiz: (lessonId) => request('GET', `/lessons/${lessonId}/quiz`),
+  bank: () => request('GET', '/bank'),
+  bankUnit: (n) => request('GET', `/bank/units/${n}`),
+  bankCheck: (n, id, choice) => request('POST', `/bank/units/${n}/check`, { id, choice }),
+  bankReveal: (n, id) => request('POST', `/bank/units/${n}/reveal`, { id }),
+  bankFinish: (n, answers, lesson = '') => request('POST', `/bank/units/${n}/finish`, { answers, lesson }),
+  bankPayInfo: () => request('GET', '/bank/pay-info'),
+  bankMyPayment: () => request('GET', '/bank/payments/mine'),
+  bankPay: (body) => request('POST', '/bank/payments', body),
+
   submitQuiz: (lessonId, answers) => request('POST', `/lessons/${lessonId}/quiz/submit`, { answers }),
 };

@@ -57,11 +57,11 @@
     "1946"
    ],
    "correctIndex": 0,
-   "explanation": "في عام 1876، اخترع أمريكي يدعى Bill الهاتف (telephone).",
+   "explanation": "في عام 1876، اخترع أمريكي يدعى Bell الهاتف (telephone).",
    "source": "ص 54"
   },
   {
-   "prompt": "ماذا اخترع الإيطالي Marcony في عام 1895؟",
+   "prompt": "ماذا اخترع الإيطالي Marconi في عام 1895؟",
    "options": [
     "التلغراف اللاسلكي (Wireless telegraph)",
     "الهاتف",
@@ -69,7 +69,7 @@
     "الراديو"
    ],
    "correctIndex": 0,
-   "explanation": "في عام 1895، اخترع إيطالي يدعى Marcony التلغراف اللاسلكي (Wireless telegraph).",
+   "explanation": "في عام 1895، اخترع إيطالي يدعى Marconi التلغراف اللاسلكي (Wireless telegraph).",
    "source": "ص 54"
   },
   {

@@ -16,6 +16,7 @@ function Dashboard() {
     <>
       <div className="admin-head">
         <h1>لوحة التحكم</h1>
+        <Link className="btn ghost" to="/admin/payments">طلبات الدفع</Link>
       </div>
       <p className="muted">منشور {published} من {all.length} درساً.</p>
 
